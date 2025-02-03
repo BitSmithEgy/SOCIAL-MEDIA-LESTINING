@@ -7,6 +7,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from cred import FACEBOOK_EMAIL, FACEBOOK_PASSWORD
 import csv
+from selenium.webdriver.firefox.options import Options
+
 
 MESSAGE = """
  _____ _    ____ _____ ____   ___   ___  _  __
@@ -27,7 +29,14 @@ MESSAGE = """
 
 def main(FACEBOOK_EMAIL, FACEBOOK_PASSWORD, KEYWORD, MAXPOSTS):
     csv_file = f"{KEYWORD}_posts.csv"
-    driver = webdriver.Firefox()
+    
+    options = Options()
+    options.headless = True 
+    options.set_preference("dom.webdriver.enabled", False)
+    options.set_preference("useAutomationExtension", False)
+
+    driver = webdriver.Firefox(options=options)
+
     try:
         driver.get("https://www.facebook.com")
         time.sleep(3)
